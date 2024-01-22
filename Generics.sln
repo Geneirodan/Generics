@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{16E76B45-3793-46D7-B32A-A6E0CC416DCA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{639AA5E7-646F-4956-A847-D406C023B5CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "src\Repository\Repository.csproj", "{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudService", "src\CrudService\CrudService.csproj", "{43939545-0854-4DE3-985A-4F22E9EF5E83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudService.Tests", "tests\CrudService.Tests\CrudService.Tests.csproj", "{66104BFB-A085-476A-B1C6-44F882F1FAC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43939545-0854-4DE3-985A-4F22E9EF5E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43939545-0854-4DE3-985A-4F22E9EF5E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43939545-0854-4DE3-985A-4F22E9EF5E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43939545-0854-4DE3-985A-4F22E9EF5E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
+		{43939545-0854-4DE3-985A-4F22E9EF5E83} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
+		{66104BFB-A085-476A-B1C6-44F882F1FAC4} = {639AA5E7-646F-4956-A847-D406C023B5CE}
+	EndGlobalSection
+EndGlobal
