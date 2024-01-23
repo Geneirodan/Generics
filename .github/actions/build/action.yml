@@ -14,7 +14,7 @@ runs:
       run: dotnet restore
     - name: Build
       shell: bash
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
     - name: Test
       shell: bash
       run: dotnet test --no-build --verbosity normal
