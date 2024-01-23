@@ -1,4 +1,4 @@
-name: Action to build and publish the project as a nuget package to github package registry
+name: Publish
 
 on:
   push:
@@ -10,10 +10,13 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/dotnet.yml
-      - uses: ./.github/actions/pack.yml
+        
+      - uses: ./.github/actions/build
+        
+      - uses: ./.github/actions/pack
         with:
           package: Repository
-      - uses: ./.github/actions/pack.yml
+          
+      - uses: ./.github/actions/pack
         with:
           package: CrudService
