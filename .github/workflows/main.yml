@@ -12,7 +12,9 @@ jobs:
       - uses: actions/checkout@v4
         
       - uses: ./.github/actions/build
-        
+        with: 
+          configuration: Release
+  
   pack:
     runs-on: ubuntu-latest
     

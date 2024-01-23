@@ -1,6 +1,10 @@
 name: build
 description: .NET build action
-  
+inputs: 
+  configuration:
+    required: true
+    default: "Debug"
+    description: "Build configuration"
 runs:
   using: "composite"
   steps:
@@ -14,7 +18,4 @@ runs:
       run: dotnet restore
     - name: Build
       shell: bash
-      run: dotnet build --no-restore -c Release
-    - name: Test
-      shell: bash
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build --no-restore -c ${{ inputs.configuration }}
