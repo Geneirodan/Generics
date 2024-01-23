@@ -1,0 +1,21 @@
+name: build
+description: .NET build action
+inputs: 
+  configuration:
+    required: true
+    default: "Debug"
+    description: "Build configuration"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      shell: bash
+      run: dotnet restore
+    - name: Build
+      shell: bash
+      run: dotnet build --no-restore -c ${{ inputs.configuration }}
