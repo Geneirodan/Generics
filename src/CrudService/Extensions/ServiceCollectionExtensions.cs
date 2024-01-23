@@ -6,11 +6,9 @@ namespace Geneirodan.Generics.CrudService.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddServicesFromAssemblyOf<T>(this IServiceCollection services)
     {
-        
-        services.AddRepositories();
-        return services.Scan(i => i.FromCallingAssembly()
+        return services.Scan(i => i.FromAssemblyOf<T>()
             .AddClasses(c => c.WithAttribute<TransientServiceAttribute>())
             .AsImplementedInterfaces()
             .WithTransientLifetime()
