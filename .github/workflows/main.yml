@@ -10,7 +10,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/dotnet.yml
+      - uses: ./.github/workflows/dotnet.yml
       - uses: ./.github/actions/pack.yml
         with:
           package: Repository
