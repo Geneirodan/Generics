@@ -10,8 +10,11 @@ runs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
+      shell: bash
       run: dotnet restore
     - name: Build
+      shell: bash
       run: dotnet build --no-restore
     - name: Test
+      shell: bash
       run: dotnet test --no-build --verbosity normal
