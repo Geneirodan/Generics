@@ -16,8 +16,8 @@ runs:
 
     - name: Prep package
       shell: bash
-      run: dotnet nuget add source --username Geneirodan --password ${{ token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Geneirodan/index.json"
+      run: dotnet nuget add source --username Geneirodan --password ${{ inputs.token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Geneirodan/index.json"
 
     - name: Push package to GitHub packages
       shell: bash
-      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ token }}  --source "github"
+      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ inputs.token }}  --source "github"
