@@ -9,6 +9,12 @@
         <Authors>Geneirodan</Authors>
         <AssemblyName>CrudService</AssemblyName>
         <Title>Generic CRUD service</Title>
+        <Description>Generic implementation of CrudService for Geneirodan.Generics.Interfaces.IRepository</Description>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <RepositoryUrl>https://github.com/Geneirodan/Geneirodan.Generics</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Copyright>Copyright (c) Geneirodan 2024</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +28,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Repository\Repository.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="README.md">
+        <Pack>true</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
     
 </Project>
