@@ -10,7 +10,6 @@
         <AssemblyName>CrudService</AssemblyName>
         <Title>Generic CRUD service</Title>
         <Description>Generic implementation of CrudService for Geneirodan.Generics.Interfaces.IRepository</Description>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RepositoryUrl>https://github.com/Geneirodan/Geneirodan.Generics</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Copyright>Copyright (c) Geneirodan 2024</Copyright>
