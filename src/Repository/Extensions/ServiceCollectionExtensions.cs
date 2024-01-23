@@ -5,9 +5,9 @@ namespace Geneirodan.Generics.Repository.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddRepositories(this IServiceCollection services) =>
+    public static IServiceCollection AddRepositoriesFromAssemblyOf<T>(this IServiceCollection services) =>
         services.Scan(i =>
-            i.FromCallingAssembly()
+            i.FromAssemblyOf<T>()
                 .AddClasses(c => c.AssignableTo<IRepositoryService>())
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
