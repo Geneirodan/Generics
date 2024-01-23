@@ -1,6 +1,12 @@
 name: pack
 description: .NET build action
-
+inputs:
+  package:
+    required: true
+    description: "Package name"
+  token:
+    required: true
+    description: "GitHub API token"
 runs:
   using: "composite"
   steps:
@@ -10,8 +16,8 @@ runs:
 
     - name: Prep package
       shell: bash
-      run: dotnet nuget add source --username Geneirodan --password ${{ secrets.NUGET_PACKAGE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Geneirodan/index.json"
+      run: dotnet nuget add source --username Geneirodan --password ${{ token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Geneirodan/index.json"
 
     - name: Push package to GitHub packages
       shell: bash
-      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}  --source "github"
+      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ token }}  --source "github"
