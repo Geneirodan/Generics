@@ -1,14 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2DA20AA-28D1-455C-BF50-C49A8F831633}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{16E76B45-3793-46D7-B32A-A6E0CC416DCA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{639AA5E7-646F-4956-A847-D406C023B5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "src\Repository\Repository.csproj", "{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Abstractions", "src\Repository.Abstractions\Repository.Abstractions.csproj", "{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudService", "src\CrudService\CrudService.csproj", "{43939545-0854-4DE3-985A-4F22E9EF5E83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudService.Tests", "tests\CrudService.Tests\CrudService.Tests.csproj", "{66104BFB-A085-476A-B1C6-44F882F1FAC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "src\Extensions\Extensions.csproj", "{A51233E1-2CFD-4CE1-B220-C4387551105C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.EntityFrameworkCore", "src\Repository.EntityFrameworkCore\Repository.EntityFrameworkCore.csproj", "{99C44268-05FB-4571-B9DE-25E24D641FF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +41,20 @@ Global
 		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66104BFB-A085-476A-B1C6-44F882F1FAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51233E1-2CFD-4CE1-B220-C4387551105C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51233E1-2CFD-4CE1-B220-C4387551105C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51233E1-2CFD-4CE1-B220-C4387551105C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51233E1-2CFD-4CE1-B220-C4387551105C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C44268-05FB-4571-B9DE-25E24D641FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C44268-05FB-4571-B9DE-25E24D641FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C44268-05FB-4571-B9DE-25E24D641FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C44268-05FB-4571-B9DE-25E24D641FF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6D07BE8C-DAA2-4CFB-B20C-2B0B5716E9A1} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
 		{43939545-0854-4DE3-985A-4F22E9EF5E83} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
 		{66104BFB-A085-476A-B1C6-44F882F1FAC4} = {639AA5E7-646F-4956-A847-D406C023B5CE}
+		{A51233E1-2CFD-4CE1-B220-C4387551105C} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
+		{99C44268-05FB-4571-B9DE-25E24D641FF8} = {16E76B45-3793-46D7-B32A-A6E0CC416DCA}
 	EndGlobalSection
 EndGlobal
