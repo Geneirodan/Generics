@@ -8,26 +8,52 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    outputs: 
+      version: ${{ steps.gitversion.outputs.semVer }}
+    
     steps:
       - uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0
+
       - uses: ./.github/actions/build
-        with: 
+        with:
           configuration: Release
+
+      - uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+      
+      - id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
   
+  find-packages:
+    runs-on: ubuntu-latest
+    
+    outputs:
+      packages: ${{ steps.folders.outputs.folders }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: folders
+        uses: philips-labs/list-folder-action@v2
+        with:
+          path: ./src
+          
   pack:
     runs-on: ubuntu-latest
     
-    needs: build
+    needs: [build, find-packages]
     
     strategy:
       matrix:
-        package: ["Repository", "CrudService"]
-        
+        package: ${{ fromJson(needs.find-packages.outputs.packages )}}
+    
     steps:
       - uses: actions/checkout@v4
-        
+
       - uses: ./.github/actions/pack
         with:
           package: ${{ matrix.package }}
           token: ${{ secrets.NUGET_PACKAGE_TOKEN }}
+          version: ${{ needs.build.outputs.version }}

@@ -7,11 +7,15 @@ inputs:
   token:
     required: true
     description: "GitHub API token"
+  version:
+    required: true
+    description: "Package version"
+    
 runs:
   using: "composite"
   steps:
     - name: Pack ${{ inputs.package }} NuGet package
-      run: dotnet pack src/${{ inputs.package }}/${{ inputs.package }}.csproj -c Release
+      run: dotnet pack src/${{ inputs.package }}/${{ inputs.package }}.csproj -c Release /p:Version=${{ inputs.version }}
       shell: bash
 
     - name: Prep package
