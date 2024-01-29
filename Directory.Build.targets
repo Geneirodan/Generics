@@ -4,7 +4,32 @@
         <PackageId>Geneirodan.Generics.$(MSBuildProjectName)</PackageId>
     </PropertyGroup>
 
-    <ItemGroup Condition="!$(AssemblyName.EndsWith('.Tests'))">
-        <None Include="README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
+    <Choose>
+        <When Condition="$(AssemblyName.EndsWith('.Tests'))">
+
+            <PropertyGroup>
+                <IsTestProject>true</IsTestProject>
+                <IsPackable>false</IsPackable>
+            </PropertyGroup>
+            
+            <ItemGroup>
+                <PackageReference Include="FluentAssertions" />
+                <PackageReference Include="Microsoft.NET.Test.Sdk" />
+                <PackageReference Include="xunit"/>
+                <PackageReference Include="xunit.runner.visualstudio">
+                    <PrivateAssets>all</PrivateAssets>
+                    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+                </PackageReference>
+                <PackageReference Include="coverlet.collector">
+                    <PrivateAssets>all</PrivateAssets>
+                    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+                </PackageReference>
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <None Include="README.md" Pack="true" PackagePath="\"/>
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
 </Project>
