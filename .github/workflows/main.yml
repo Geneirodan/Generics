@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs: 
-      version: ${{ steps.gitversion.outputs.semVer }}
+      version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
     
     steps:
       - uses: actions/checkout@v4
