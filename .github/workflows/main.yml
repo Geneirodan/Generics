@@ -39,7 +39,9 @@ jobs:
         shell: bash
         run: |
           cd ./src 
-          packages=(ls -dm */)
+          list=$(ls -dm1 */)
+          packages=$(echo '[ "'"$(echo "$list" | sed ':a;N;$!ba;s/\n/", "/g')"'" ]')
+          echo "packages=$packages" >> $GITHUB_OUTPUT
         
           
   pack:
@@ -49,7 +51,7 @@ jobs:
     
     strategy:
       matrix:
-        package: [ ${{ needs.find-packages.outputs.packages }} ]
+        package: ${{ fromJSON(needs.find-packages.outputs.packages) }}
     
     steps:
       - uses: actions/checkout@v4
