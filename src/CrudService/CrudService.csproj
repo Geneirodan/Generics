@@ -1,39 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>Geneirodan.Generics.CrudService</RootNamespace>
-        <PackageId>Geneirodan.Generics.CrudService</PackageId>
-        <Authors>Geneirodan</Authors>
-        <AssemblyName>CrudService</AssemblyName>
-        <Title>Generic CRUD service</Title>
-        <Description>Generic implementation of CrudService for Geneirodan.Generics.Interfaces.IRepository</Description>
-        <RepositoryUrl>https://github.com/Geneirodan/Geneirodan.Generics</RepositoryUrl>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Copyright>Copyright (c) Geneirodan 2024</Copyright>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="AutoFilterer" Version="3.0.0" />
-        <PackageReference Include="FluentResults" Version="3.15.2" />
-        <PackageReference Include="FluentValidation" Version="11.9.0" />
-        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
-        <PackageReference Include="Mapster" Version="7.4.0" />
+        <ProjectReference Include="..\Extensions\Extensions.csproj"/>
+        <ProjectReference Include="..\Repository.Abstractions\Repository.Abstractions.csproj"/>
+        <ProjectReference Include="..\Results\Results.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Repository\Repository.csproj" />
+        <PackageReference Include="FluentResults"/>
+        <PackageReference Include="Mapster"/>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="README.md">
-        <Pack>true</Pack>
-        <PackagePath>\</PackagePath>
-      </None>
-    </ItemGroup>
-    
 </Project>

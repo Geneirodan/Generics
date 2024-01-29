@@ -1,14 +1,12 @@
 using AutoFilterer.Abstractions;
-using AutoFilterer.Extensions;
 using FluentResults;
 using FluentValidation;
-using Geneirodan.Generics.CrudService.Constants;
-using Geneirodan.Generics.CrudService.Extensions;
 using Geneirodan.Generics.CrudService.Interfaces;
-using Geneirodan.Generics.CrudService.Models;
-using Geneirodan.Generics.Repository.Interfaces;
+using Geneirodan.Generics.Extensions;
+using Geneirodan.Generics.Repository.Abstractions;
+using Geneirodan.Generics.Repository.Abstractions.Interfaces;
+using Geneirodan.Generics.Results;
 using Mapster;
-using Microsoft.EntityFrameworkCore;
 
 namespace Geneirodan.Generics.CrudService;
 
@@ -45,7 +43,7 @@ public class CrudService<TEntity, TViewModel, TKey>(IRepository<TEntity, TKey> r
         {
             var entity = await repository.GetAsync(id);
             if (entity is null)
-                return Result.Fail(Errors.NotFound);
+                return new NotFoundResult();
             repository.Remove(entity);
             await repository.ConfirmAsync();
             return Result.Ok();
@@ -63,26 +61,26 @@ public class CrudService<TEntity, TViewModel, TKey>(IRepository<TEntity, TKey> r
         {
             if (validator is not null)
             {
-                var validationResult1 = await validator.ValidateAsync(model);
-                var validationResult = validationResult1.ToFluentResult();
-                if (validationResult.IsFailed)
-                    return validationResult;
+                var validationResult = await validator.ValidateAsync(model);
+                var result = validationResult.ToFluentResult();
+                if (result.IsFailed)
+                    return result;
             }
-            var config = new TypeAdapterConfig();
-            config.NewConfig<IEditModel<TEntity>, TEntity>().IgnoreNullValues(true);
             var entity = await repository.GetAsync(id);
             if (entity is null)
-                return Result.Fail(Errors.NotFound);
+                return new NotFoundResult();
+            var config = new TypeAdapterConfig();
+            config.NewConfig<TEditModel, TEntity>().IgnoreNullValues(true);
             entity.Adapt(model, config);
             repository.Update(entity);
             await repository.ConfirmAsync();
-            return Result.Ok();
+            var viewModel = entity.Adapt<TViewModel>();
+            return Result.Ok(viewModel);
         }
         catch (Exception e)
         {
             return Result.Fail(e.Message);
         }
-
     }
 
     public async Task<TViewModel?> GetByIdAsync(TKey id)
@@ -91,14 +89,9 @@ public class CrudService<TEntity, TViewModel, TKey>(IRepository<TEntity, TKey> r
         return entity.Adapt<TViewModel>();
     }
 
-    public async Task<PaginationModel<TViewModel>> GetAsync(IPaginationFilter filter)
+    public async Task<PaginatedList<TViewModel>> GetAsync(IPaginationFilter filter)
     {
-        var entities = repository.GetAll().ApplyFilterWithoutPagination(filter);
-        var viewModels = await entities
-            .ToPaged(filter.Page, filter.PerPage)
-            .ProjectToType<TViewModel>()
-            .ToListAsync();
-
-        return new PaginationModel<TViewModel>(viewModels, entities.Count());
+        var entities = await repository.GetAll(filter);
+        return entities.Adapt<PaginatedList<TViewModel>>();
     }
 }

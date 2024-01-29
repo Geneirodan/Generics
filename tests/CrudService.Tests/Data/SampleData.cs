@@ -1,14 +1,8 @@
-using AutoFilterer.Abstractions;
 using AutoFilterer.Types;
 using FluentValidation;
-using Geneirodan.Generics.CrudService.Interfaces;
-using Geneirodan.Generics.Repository.Interfaces;
 using MockQueryable.Moq;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
 
-namespace CrudService.Tests.Data;
+namespace Geneirodan.Generics.CrudService.Tests.Data;
 
 
 public class SampleEntity : IEntity<int>

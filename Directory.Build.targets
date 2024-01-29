@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <RootNamespace>Geneirodan.Generics.$(MSBuildProjectName)</RootNamespace>
+        <PackageId>Geneirodan.Generics.$(MSBuildProjectName)</PackageId>
+    </PropertyGroup>
+</Project>
