@@ -9,7 +9,6 @@
     <ItemGroup>
         <PackageReference Include="FluentResults"/>
         <PackageReference Include="Mapster"/>
-        <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
