@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           cd ./src 
-          list=$(ls -dm1 */)
+          list=$(set -- */; printf "%s\n" "${@%/}")
           packages=$(echo '[ "'"$(echo "$list" | sed ':a;N;$!ba;s/\n/", "/g')"'" ]')
           echo "packages=$packages" >> $GITHUB_OUTPUT
         
