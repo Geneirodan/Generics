@@ -3,4 +3,8 @@
         <RootNamespace>Geneirodan.Generics.$(MSBuildProjectName)</RootNamespace>
         <PackageId>Geneirodan.Generics.$(MSBuildProjectName)</PackageId>
     </PropertyGroup>
+
+    <ItemGroup Condition="!$(AssemblyName.EndsWith('.Tests'))">
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>
