@@ -1,14 +1,15 @@
-using Geneirodan.Generics.CrudService.Attributes;
-using Geneirodan.Generics.Repository.Extensions;
+using Geneirodan.Generics.Extensions.Attributes;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace Geneirodan.Generics.CrudService.Extensions;
+namespace Geneirodan.Generics.Extensions;
 
+// ReSharper disable once UnusedType.Global
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddServicesFromAssemblyOf<T>(this IServiceCollection services)
+    public static IServiceCollection AddServicesFromAssemblies(this IServiceCollection services, params Assembly[] assemblies)
     {
-        return services.Scan(i => i.FromAssemblyOf<T>()
+        return services.Scan(i => i.FromAssemblies(assemblies)
             .AddClasses(c => c.WithAttribute<TransientServiceAttribute>())
             .AsImplementedInterfaces()
             .WithTransientLifetime()
