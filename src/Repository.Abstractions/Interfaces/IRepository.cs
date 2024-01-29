@@ -1,11 +1,12 @@
+using AutoFilterer.Abstractions;
 using System.Linq.Expressions;
 
-namespace Geneirodan.Generics.Repository.Interfaces;
+namespace Geneirodan.Generics.Repository.Abstractions.Interfaces;
 
-public interface IRepository<TEntity, in TKey> : IRepositoryService
+public interface IRepository<TEntity, in TKey> 
     where TEntity : class, IEntity<TKey>
 {
-    IQueryable<TEntity> GetAll();
+    Task<IQueryable<TEntity>> GetAll();
     TEntity Add(TEntity entity);
     void AddRange(params TEntity[] entities);
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
@@ -16,4 +17,6 @@ public interface IRepository<TEntity, in TKey> : IRepositoryService
     void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     Task<int> ConfirmAsync(CancellationToken cancellationToken = default);
+    Task<IQueryable<TEntity>> GetAll(IFilter filter);
+    Task<PaginatedList<TEntity>> GetAll(IPaginationFilter filter);
 }

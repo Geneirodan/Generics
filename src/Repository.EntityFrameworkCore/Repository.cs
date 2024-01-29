@@ -1,8 +1,11 @@
-using Geneirodan.Generics.Repository.Interfaces;
+using AutoFilterer.Abstractions;
+using AutoFilterer.Extensions;
+using Geneirodan.Generics.Repository.Abstractions;
+using Geneirodan.Generics.Repository.Abstractions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Geneirodan.Generics.Repository;
+namespace Geneirodan.Generics.Repository.EntityFrameworkCore;
 
 public abstract class Repository<TEntity>(DbContext context) : Repository<TEntity, int>(context)
     where TEntity : class, IEntity<int>;
@@ -19,7 +22,17 @@ public abstract class Repository<TEntity, TKey, TContext>(TContext context) : IR
 
     private DbSet<TEntity> Entities => Context.Set<TEntity>();
 
-    public IQueryable<TEntity> GetAll() => Entities;
+    public Task<IQueryable<TEntity>> GetAll() => Task.FromResult<IQueryable<TEntity>>(Entities);
+
+    public Task<IQueryable<TEntity>> GetAll(IFilter filter) => Task.FromResult(Entities.ApplyFilter(filter));
+    public Task<PaginatedList<TEntity>> GetAll(IPaginationFilter filter)
+    {
+        var entities = Entities.ApplyFilterWithoutPagination(filter);
+        var paged = entities.ToPaged(filter.Page, filter.PerPage);
+
+        var paginationModel = new PaginatedList<TEntity>(paged, entities.Count());
+        return Task.FromResult(paginationModel);
+    }
 
     public TEntity Add(TEntity entity) => Entities.Add(entity).Entity;
 
