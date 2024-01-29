@@ -1,23 +1,16 @@
-using AutoFilterer.Abstractions;
 using AutoFilterer.Extensions;
-using CrudService.Tests.Data;
 using FluentAssertions;
 using FluentResults;
-using Geneirodan.Generics.CrudService;
-using Geneirodan.Generics.CrudService.Constants;
-using Geneirodan.Generics.CrudService.Interfaces;
-using Geneirodan.Generics.Repository.Interfaces;
+using Geneirodan.Generics.CrudService.Tests.Data;
+using Geneirodan.Generics.Repository.Abstractions;
+using Geneirodan.Generics.Results;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using Xunit;
-using static CrudService.Tests.Data.SampleData;
+using static Geneirodan.Generics.CrudService.Tests.Data.SampleData;
 
 
-namespace CrudService.Tests;
+namespace Geneirodan.Generics.CrudService.Tests;
 
 public class CrudServiceTests
 {
@@ -28,7 +21,7 @@ public class CrudServiceTests
     {
         _repository = new Mock<IRepository<SampleEntity, int>>();
         _repository.Setup(x => x.ConfirmAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
-        _repository.Setup(x => x.GetAll()).Returns(entities);
+        _repository.Setup(x => x.GetAll()).ReturnsAsync(entities);
         _service = new CrudService<SampleEntity, SampleViewModel, int>(_repository.Object);
     }
     private static Func<Times> GetTimes(bool b) => b ? Times.Once : Times.Never;
@@ -57,9 +50,10 @@ public class CrudServiceTests
     [Theory, MemberData(nameof(Filters), MemberType = typeof(SampleData))]
     public async void GetAsync(IPaginationFilter filter)
     {
+        var sampleEntities = entities.ApplyFilter(filter);
+        _repository.Setup(x => x.GetAll(filter)).ReturnsAsync(new PaginatedList<SampleEntity>(sampleEntities, 0));
         var model = await _service.GetAsync(filter);
-        var sampleEntities = entities.ApplyFilter(filter).Adapt<IEnumerable<SampleViewModel>>();
-        model.List.Should().BeEquivalentTo(sampleEntities);
+        model.List.Should().BeEquivalentTo(sampleEntities.Adapt<IEnumerable<SampleViewModel>>());
     }
 
     [Theory, MemberData(nameof(AddModels), MemberType = typeof(SampleData))]
@@ -154,10 +148,13 @@ public class CrudServiceTests
         SetupSaveError();
         var result = await _service.DeleteAsync(id);
         result.IsSuccess.Should().BeFalse();
-        
+
         var b = await validIds.ContainsAsync(id);
-        result.Errors.Should().ContainEquivalentOf(new Error(b ? Message : Errors.NotFound));
-        
+        if (b)
+            result.Errors.Should().ContainEquivalentOf(new Error(Message));
+        else
+            result.Should().BeOfType<NotFoundResult>();
+
         var times = GetTimes(b);
         _repository.Verify(x => x.Remove(It.IsAny<SampleEntity>()), times);
         _repository.Verify(x => x.ConfirmAsync(It.IsAny<CancellationToken>()), times);
