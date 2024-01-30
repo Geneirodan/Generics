@@ -21,13 +21,14 @@ public abstract class Repository<TEntity, TKey, TContext>(TContext context) : IR
     protected TContext Context => context;
 
     private DbSet<TEntity> Entities => Context.Set<TEntity>();
+    private IQueryable<TEntity> NotTrackingEntities => Entities.AsNoTracking();
 
-    public Task<IQueryable<TEntity>> GetAll() => Task.FromResult<IQueryable<TEntity>>(Entities);
+    public Task<IQueryable<TEntity>> GetAll() => Task.FromResult(NotTrackingEntities);
 
-    public Task<IQueryable<TEntity>> GetAll(IFilter filter) => Task.FromResult(Entities.ApplyFilter(filter));
+    public Task<IQueryable<TEntity>> GetAll(IFilter filter) => Task.FromResult(NotTrackingEntities.ApplyFilter(filter));
     public Task<PaginatedList<TEntity>> GetAll(IPaginationFilter filter)
     {
-        var entities = Entities.ApplyFilterWithoutPagination(filter);
+        var entities = NotTrackingEntities.ApplyFilterWithoutPagination(filter);
         var paged = entities.ToPaged(filter.Page, filter.PerPage);
 
         var paginationModel = new PaginatedList<TEntity>(paged, entities.Count());
@@ -39,11 +40,9 @@ public abstract class Repository<TEntity, TKey, TContext>(TContext context) : IR
     public void AddRange(params TEntity[] entities) => Entities.AddRange(entities);
 
     public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) =>
-        Entities.FirstOrDefaultAsync(expression, cancellationToken);
+        NotTrackingEntities.FirstOrDefaultAsync(expression, cancellationToken);
 
-    public async Task<TEntity?> GetAsync(TKey id) => await Entities.FindAsync(id);
-
-    public async Task<TEntity?> GetAsync(object?[]? keys) => await Entities.FindAsync(keys);
+    public Task<TEntity?> GetAsync(TKey id) => GetAsync(x => Equals(x.Id, id));
 
     public void Remove(TEntity entity) => Entities.Remove(entity);
 
