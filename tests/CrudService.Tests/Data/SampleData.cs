@@ -70,6 +70,8 @@ public static class SampleData
         new()
         {
             { 1, new SampleEditModel(1) },
-            { 1, new SampleEditModel(MagicalNumber) }
+            { 1, new SampleEditModel(MagicalNumber) },
+            { 0, new SampleEditModel(1) },
+            { 0, new SampleEditModel(MagicalNumber) }
         };
 }

@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Repository.Abstractions\Repository.Abstractions.csproj" />
-      <ProjectReference Include="..\Results\Results.csproj" />
     </ItemGroup>
 
 </Project>
