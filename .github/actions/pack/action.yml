@@ -7,15 +7,12 @@ inputs:
   token:
     required: true
     description: "GitHub API token"
-  version:
-    required: true
-    description: "Package version"
     
 runs:
   using: "composite"
   steps:
     - name: Pack ${{ inputs.package }} NuGet package
-      run: dotnet pack src/${{ inputs.package }}/${{ inputs.package }}.csproj -c Release /p:Version=${{ inputs.version }}
+      run: dotnet pack src/${{ inputs.package }}/${{ inputs.package }}.csproj -c Release
       shell: bash
 
     - name: Prep package
@@ -24,4 +21,4 @@ runs:
 
     - name: Push package to GitHub packages
       shell: bash
-      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ inputs.token }}  --source "github"
+      run: dotnet nuget push src/${{ inputs.package }}/bin/Release/*.nupkg --api-key ${{ inputs.token }} --source "github" --skip-duplicate
