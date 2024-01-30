@@ -1,7 +1,7 @@
 using Geneirodan.Generics.CrudRequests.Interfaces;
 using Geneirodan.Generics.Repository.Abstractions.Interfaces;
-using Geneirodan.Generics.Results;
 using Mapster;
+using System.Net;
 using Result = FluentResults.Result;
 
 namespace Geneirodan.Generics.CrudRequests.Handles;
@@ -16,7 +16,7 @@ public abstract class UpdateCommandHandle<TUpdateCommand, TEntity, TKey, TViewMo
         var entity = await repository.GetAsync(request.Id);
 
         if (entity is null)
-            return new NotFoundResult();
+            return Result.Fail(HttpStatusCode.NotFound.ToString());
 
         entity = request.Adapt<TEntity>();
         repository.Update(entity);

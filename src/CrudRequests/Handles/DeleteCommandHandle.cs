@@ -1,6 +1,6 @@
 using Geneirodan.Generics.CrudRequests.Interfaces;
 using Geneirodan.Generics.Repository.Abstractions.Interfaces;
-using Geneirodan.Generics.Results;
+using System.Net;
 using Result = FluentResults.Result;
 
 namespace Geneirodan.Generics.CrudRequests.Handles;
@@ -16,7 +16,7 @@ public abstract class DeleteCommandHandle<TDeleteCommand, TEntity, TKey>(IReposi
         var entity = await repository.GetAsync(request.Id);
 
         if (entity is null)
-            return new NotFoundResult();
+            return Result.Fail(HttpStatusCode.NotFound.ToString());
 
         repository.Remove(entity);
         await repository.ConfirmAsync(cancellationToken);

@@ -3,10 +3,10 @@ using FluentAssertions;
 using FluentResults;
 using Geneirodan.Generics.CrudService.Tests.Data;
 using Geneirodan.Generics.Repository.Abstractions;
-using Geneirodan.Generics.Results;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using System.Net;
 using static Geneirodan.Generics.CrudService.Tests.Data.SampleData;
 
 
@@ -97,9 +97,13 @@ public class CrudServiceTests
     {
         SetupForId(id);
         var result = await _service.EditAsync(id, model);
-        result.IsSuccess.Should().BeTrue();
-        _repository.Verify(x => x.Update(It.IsAny<SampleEntity>()), Times.Once);
-        _repository.Verify(x => x.ConfirmAsync(It.IsAny<CancellationToken>()), Times.Once);
+        
+        var b = await validIds.ContainsAsync(id);
+        result.IsSuccess.Should().Be(b);
+        
+        var times = GetTimes(b);
+        _repository.Verify(x => x.Update(It.IsAny<SampleEntity>()), times);
+        _repository.Verify(x => x.ConfirmAsync(It.IsAny<CancellationToken>()), times);
     }
 
     [Theory, MemberData(nameof(EditModels), MemberType = typeof(SampleData))]
@@ -108,7 +112,7 @@ public class CrudServiceTests
         SetupForId(id);
         var result = await _service.EditAsync(id, model, new SampleEditModelValidator());
 
-        var b = model.Smth != MagicalNumber;
+        var b = await validIds.ContainsAsync(id) && model.Smth != MagicalNumber;
         result.IsSuccess.Should().Be(b);
 
         var times = GetTimes(b);
@@ -123,9 +127,13 @@ public class CrudServiceTests
         SetupSaveError();
         var result = await _service.EditAsync(id, model);
         result.IsSuccess.Should().BeFalse();
-        result.Errors.Should().ContainEquivalentOf(new Error(Message));
-        _repository.Verify(x => x.Update(It.IsAny<SampleEntity>()), Times.Once);
-        _repository.Verify(x => x.ConfirmAsync(It.IsAny<CancellationToken>()), Times.Once);
+        
+        var b = await validIds.ContainsAsync(id);
+        result.Errors.Should().ContainEquivalentOf(new Error(b ? Message : "NotFound"));
+        
+        var times = GetTimes(b);
+        _repository.Verify(x => x.Update(It.IsAny<SampleEntity>()), times);
+        _repository.Verify(x => x.ConfirmAsync(It.IsAny<CancellationToken>()), times);
     }
 
     [Theory, MemberData(nameof(Ids), MemberType = typeof(SampleData))]
@@ -150,10 +158,7 @@ public class CrudServiceTests
         result.IsSuccess.Should().BeFalse();
 
         var b = await validIds.ContainsAsync(id);
-        if (b)
-            result.Errors.Should().ContainEquivalentOf(new Error(Message));
-        else
-            result.Should().BeOfType<NotFoundResult>();
+        result.Errors.Should().ContainEquivalentOf(new Error(b ? Message : "NotFound"));
 
         var times = GetTimes(b);
         _repository.Verify(x => x.Remove(It.IsAny<SampleEntity>()), times);

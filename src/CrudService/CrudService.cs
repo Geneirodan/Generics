@@ -5,8 +5,8 @@ using Geneirodan.Generics.CrudService.Interfaces;
 using Geneirodan.Generics.Extensions;
 using Geneirodan.Generics.Repository.Abstractions;
 using Geneirodan.Generics.Repository.Abstractions.Interfaces;
-using Geneirodan.Generics.Results;
 using Mapster;
+using System.Net;
 
 namespace Geneirodan.Generics.CrudService;
 
@@ -43,7 +43,7 @@ public class CrudService<TEntity, TViewModel, TKey>(IRepository<TEntity, TKey> r
         {
             var entity = await repository.GetAsync(id);
             if (entity is null)
-                return new NotFoundResult();
+                return Result.Fail(HttpStatusCode.NotFound.ToString());
             repository.Remove(entity);
             await repository.ConfirmAsync();
             return Result.Ok();
@@ -68,7 +68,7 @@ public class CrudService<TEntity, TViewModel, TKey>(IRepository<TEntity, TKey> r
             }
             var entity = await repository.GetAsync(id);
             if (entity is null)
-                return new NotFoundResult();
+                return Result.Fail(HttpStatusCode.NotFound.ToString());
             var config = new TypeAdapterConfig();
             config.NewConfig<TEditModel, TEntity>().IgnoreNullValues(true);
             entity.Adapt(model, config);
