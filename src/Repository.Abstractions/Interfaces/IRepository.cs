@@ -11,7 +11,6 @@ public interface IRepository<TEntity, in TKey>
     void AddRange(params TEntity[] entities);
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
     Task<TEntity?> GetAsync(TKey id);
-    Task<TEntity?> GetAsync(object?[]? keys);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
     void Update(TEntity entity);
